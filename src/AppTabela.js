@@ -9,7 +9,7 @@ import React, {Children, createContext, useState } from 'react';
 import { ButtonContext } from './context/ThemeContext';
 import Pesquisa from './pesquisaCards/Pesquisa';
 
-import HeaderRight from './header/Header';
+import HeaderRight from './header/header';
 import Conteudo from './pesquisaCards/Conteudo';
 
 function AppTabela() {
