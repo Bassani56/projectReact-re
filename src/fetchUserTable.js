@@ -19,7 +19,7 @@ export async function fetchUserTable(cardIdList) {
     console.error('Erro ao buscar dados:', error);
     return ;
   }
-  console.log(data)
+  // console.log(data)
   return data;
   
 }

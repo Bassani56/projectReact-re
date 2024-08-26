@@ -1,4 +1,5 @@
 import React, { useRef, useEffect, useCallback } from 'react';
+import updateElemento from '../../utils/update';
 
 const Cards = React.memo(({ cardId, text, handleChange }) => {
   const editableRef = useRef(null);
@@ -11,8 +12,11 @@ const Cards = React.memo(({ cardId, text, handleChange }) => {
     if (editableRef.current) {  handleChange(cardId, editableRef.current.innerText); }
   }, [cardId, handleChange]);
 
+  
+
   return (
     <div>
+  
       <div
         ref={editableRef}
         id={`textarea-${cardId}`}

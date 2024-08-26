@@ -12,13 +12,27 @@ import Cards from './cards/Cards';
 import { fetchUserTable } from '../fetchUserTable';
 import { buscaStruct } from '../utils/buscaStruct';
 
-const Carousel = ({ targetValue}) => {
+import updateElemento from '../utils/update';
+
+import { useContext } from 'react';
+
+import { ButtonContext } from '../context/ThemeContext';
+
+const Carousel = ({ targetValue, update}) => {
   const [specificCardIds, setSpecificCardIds] = useState([]);
   const [texts, setTexts] = useState({});
   const [structData, setStructData] = useState({});
   const [currentIndex, setCurrentIndex] = useState(0);
   const [swiperInstance, setSwiperInstance] = useState(null);
   const [busca, setBusca] = useState(false);
+
+  // console.log('targetValue: ', targetValue)
+
+  // const{theme} = useContext(ThemeContext)
+
+
+  const { setButton } = useContext(ButtonContext);
+
 
   useEffect(() => {
     setSpecificCardIds(targetValue);
@@ -42,6 +56,7 @@ const Carousel = ({ targetValue}) => {
 
   }, [specificCardIds, swiperInstance, targetValue]);
 
+  
   const handleChange = (id, event) => {
     if (event && event.target) {
       setTexts(prevTexts => ({
@@ -57,16 +72,32 @@ const Carousel = ({ targetValue}) => {
     setCurrentIndex(swiper.activeIndex);
   };
 
-//   const atualizarElemento = async (someById, someId, boolean) => {
-//     const result = await updateElemento({ ById: someById, id: someId, valor: boolean });
-//     setIsButtonClicked(true);
+  useEffect(() => {
+    const returnBotao = () => {
+      return (
+        <button id='botaoCards' type="button" onClick={() => { 
+          atualizarElemento('card', document.getElementById('cardId').textContent, true);
+        }}>Update JSON</button>
+      );
+    };
 
-//     if (result) {
-//         window.alert('Atualização realizada com sucesso');
-//     } else {
-//         console.log('Falha na atualização');
-//     }
-// };
+    setButton(returnBotao()); // Atualize o botão no contexto
+
+    return () => setButton(null); // Limpe o botão quando o componente for desmontado
+  }, [setButton]);
+
+
+  const atualizarElemento = async (someById, someId, boolean) => {
+    console.log(someById, someId, boolean);
+    const result = await updateElemento({ ById: someById, id: someId, valor: boolean });
+    
+    if (result) {
+        window.alert('Atualização realizada com sucesso');
+        update(true);
+    } else {
+        console.log('Falha na atualização');
+    }
+  };
 
   return (
     <div>
@@ -74,14 +105,6 @@ const Carousel = ({ targetValue}) => {
       <div className="swiper-button-prev">{"<"}</div>
       <div className="swiper-button-next">{">"}</div>
 
-      {/* <button id='botaoCards' type="button" onClick={() => { 
-          if (busca) {
-              atualizarElemento('card', document.getElementById('cardId').textContent, true);
-          } else {
-             alert('Deve haver cards para atualizar');
-          }
-      }}>Update JSON</button> */}
-      
       <Swiper
        className='swiper'
        onSwiper={(swiper) => setSwiperInstance(swiper)}
@@ -99,7 +122,7 @@ const Carousel = ({ targetValue}) => {
          width: '1000px',
          height: '100%',
          backgroundColor: 'green',
-         padding: '20px', // Adiciona padding ao Swiper para espaço extra
+        // Adiciona padding ao Swiper para espaço extra
          boxSizing: 'border-box', // Inclui padding e border no tamanho total
        }}
        onSlideChange={handleSlideChange}

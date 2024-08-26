@@ -1,63 +1,62 @@
 body {
-    margin: 0;
-    font-family: Arial, sans-serif;
+  margin: 0;
+  font-family: Arial, sans-serif;
 }
 .header {
-    position: -webkit-sticky; 
-    position: sticky;
-    top: 0;
-    width: 100%;
-    height: 80px; /* Ajuste conforme necessário */
-    background-color: #333;
-    color: white;
-    
-    display: flex; /* Use flexbox para alinhamento */
-    flex-direction: column; /* Empilha os itens verticalmente */
-    justify-content: center; /* Alinha itens verticalmente no centro */
-    align-items: center; /* Alinha itens horizontalmente no centro */
-    z-index: 1000;
-    font-size: xx-large;
-    padding: 10px; /* Adiciona algum espaçamento interno */
-    box-sizing: border-box; /* Inclui padding e border no tamanho total */
+  position: -webkit-sticky; 
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 80px; /* Ajuste conforme necessário */
+  background-color: #333;
+  color: white;
+  
+  display: flex; /* Use flexbox para alinhamento */
+  flex-direction: column; /* Empilha os itens verticalmente */
+  justify-content: center; /* Alinha itens verticalmente no centro */
+  align-items: center; /* Alinha itens horizontalmente no centro */
+  z-index: 1000;
+  font-size: xx-large;
+  padding: 10px; /* Adiciona algum espaçamento interno */
+  box-sizing: border-box; /* Inclui padding e border no tamanho total */
 }
 
 .highlight {
-    color: #ffcc00; /* Cor chamativa (amarelo) */
-    font-weight: bold; /* Torna o texto mais espesso */
+  color: #ffcc00; /* Cor chamativa (amarelo) */
+  font-weight: bold; /* Torna o texto mais espesso */
 }
 
 .SyntaxHighlighter {
-    white-space: pre-wrap; /* Quebra de linha no texto */
-    overflow-wrap: break-word; /* Quebra de palavras longas */
-    word-wrap: break-word; /* Quebra de palavras longas */
-    overflow-x: hidden; /* Remove a rolagem horizontal */
+  white-space: pre-wrap; /* Quebra de linha no texto */
+  overflow-wrap: break-word; /* Quebra de palavras longas */
+  word-wrap: break-word; /* Quebra de palavras longas */
+  overflow-x: hidden; /* Remove a rolagem horizontal */
 }
 
 
 #button-voltar {
-    background-color: #007BFF; /* Azul primário */
-    margin-top: 20px;
-    color: #FFFFFF; /* Branco */
-    border: 1px solid #007BFF;
-    padding: 10px 40px;
-    font-size: 16px;
-    border-radius: 4px;
-    cursor: pointer;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-  }
-  
-  #button-voltar:hover {
-    background-color: #0056b3; /* Azul escuro para hover */
-  }
-  
+  background-color: #007BFF; /* Azul primário */
+  margin-top: 20px;
+  color: #FFFFFF; /* Branco */
+  border: 1px solid #007BFF;
+  padding: 10px 40px;
+  font-size: 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+#button-voltar:hover {
+  background-color: #0056b3; /* Azul escuro para hover */
+}
+
 
 /* No arquivo CSS */
 .swiper-slide-fixed {
-    background-color: blueviolet;
-    width: alc(100% -c 40px); /* Ajuste a largura para incluir margem */
-    margin: 0px; /* Margem ao redor do slide */
-    box-sizing: border-box; /* Inclui padding e border no tamanho total */
-  }
-  
+  background-color: blueviolet;
+  width: alc(100% -c 40px); /* Ajuste a largura para incluir margem */
+  margin: 0px; /* Margem ao redor do slide */
+  box-sizing: border-box; /* Inclui padding e border no tamanho total */
+}

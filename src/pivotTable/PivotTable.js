@@ -1,12 +1,12 @@
 import { getAccountingSummary } from "../server";
 import { useEffect, useState } from "react";
-import $ from 'jquery';
+import $, { get } from 'jquery';
 import 'jquery-ui/ui/widgets/sortable';
 import 'pivottable';
 import 'pivottable/dist/pivot.css';
 import { fetchUserTable } from "../fetchUserTable";
 
-function PivotTableComponent({setCarousel}) {
+function PivotTableComponent({setCarousel, setGetAtualizou, update}) {
     const [data, setData] = useState([]);
     const [cardsTable, setCardsTable] = useState([]);
 
@@ -53,7 +53,25 @@ function PivotTableComponent({setCarousel}) {
         }
     }, [data, pivotOptions]);
 
-    useEffect(() => {
+    if (update) {
+        const update = async () =>{
+            try{
+                console.log('history[currentViewIndex].data: ', history[currentViewIndex].data)
+                const accountingData = await fetchUserTable(history[currentViewIndex].data);
+                setData(accountingData);
+                setGetAtualizou(false)
+            } catch(error){
+                console.error(error)
+            }
+        }
+
+        update()
+
+      } else {
+        console.log('falso');
+      }
+      
+    useEffect(() => {    
         const fetchAccountSummary = async () => {
             try {
                 const accountingData = await getAccountingSummary();
@@ -101,7 +119,6 @@ function PivotTableComponent({setCarousel}) {
                 return newHistory;
             });
             setCardsTable(cardsAtual)
-            setCarousel(cardsAtual)
         }
 
         // console.log(cardsAtual)
@@ -120,6 +137,7 @@ function PivotTableComponent({setCarousel}) {
                 try {
                     const cardsSpecifics = await fetchUserTable(cardsAtual);
                     setData(cardsSpecifics);
+                    setCarousel(cardsAtual)
                     // console.log('pega cards filtrados')
                 } catch (error) {
                     console.error('Erro ao buscar fetchData:', error);
