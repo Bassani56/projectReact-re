@@ -6,7 +6,7 @@ import 'pivottable';
 import 'pivottable/dist/pivot.css';
 import { fetchUserTable } from "../fetchUserTable";
 
-function PivotTableComponent() {
+function PivotTableComponent({setCarousel}) {
     const [data, setData] = useState([]);
     const [cardsTable, setCardsTable] = useState([]);
 
@@ -73,49 +73,25 @@ function PivotTableComponent() {
 
     useEffect(() =>{
         let flag = true;
-
-        function arraysAreEqual() {
-            // Verifique se `history` é um array antes de iterar
-            if (Array.isArray(history)) {
-                for (let i = 0; i < history.length; i++) {
-                    const item = history[i];
-                    if(item.data.length != cardsAtual.length){
-                        console.log(item.data.length, cardsAtual.length)
-                        continue
-                    }
-                    console.log('cardsAtual: ', cardsAtual)
-                    // Verifique se `item.data` é um array
-                    if (item && Array.isArray(item.data)) {
-                        // console.log(`Item ${i} data:`);
         
-                        // Itere sobre o array `data`
-                        for (let x = 0; x < item.data.length; x++) {
-                            if(item.data[x] === cardsAtual[x]){
-                                console.log('ITEMS IGUAIS')
-                                console.log('Data item:', item.data[x]);
-                                console.log('cardsItem: ', cardsAtual[x])
-                                flag = !flag;
-                                break
-                            }
+        if (currentViewIndex >= 1) {
+            if (Array.isArray(history)) {
+                if(history[currentViewIndex].data.length === cardsAtual.length){
+                    for(let i = 0; i < history[currentViewIndex].data.length; i++){
+                        if(history[currentViewIndex].data[i] === cardsAtual[i]){
+                            // console.log(history[currentViewIndex].data[i] + '  =  ' + cardsAtual[i])
+                            flag = false;
+                            break;
                         }
-                        console.log('<<<<<<<<<<<< >>>>>>>>>>>>>>>>>  /n /n')
-                    } else {
-                        console.warn(`Item ${i} não possui um array data`);
                     }
-                    console.log(item.data.length)
                 }
+                
             } else {
                 console.warn('`history` não é um array');
             }
         }
         
-        if (currentViewIndex >= 1) {
-            arraysAreEqual();
-        }
-        
         if(flag){
-            console.log('aqui')
-            
             setCurrentViewIndex(prevIndex =>{
                 return prevIndex + 1;
             })
@@ -125,14 +101,16 @@ function PivotTableComponent() {
                 return newHistory;
             });
             setCardsTable(cardsAtual)
+            setCarousel(cardsAtual)
         }
+
+        // console.log(cardsAtual)
+        
     },[cardsAtual])
 
     useEffect(()=>{
-        console.log('history: ', history)
+        // console.log('history: ', history)
         // const res = require('C:\Users\User\Desktop\ProjetoReactMelhorado\my-app\backend\server')
-        
-        
     },[history])
 
 
@@ -142,7 +120,7 @@ function PivotTableComponent() {
                 try {
                     const cardsSpecifics = await fetchUserTable(cardsAtual);
                     setData(cardsSpecifics);
-                    console.log('pega cards filtrados')
+                    // console.log('pega cards filtrados')
                 } catch (error) {
                     console.error('Erro ao buscar fetchData:', error);
                 }

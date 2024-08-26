@@ -1,0 +1,48 @@
+body {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+    background-color: cadetblue;
+}
+
+.app{
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: beige;
+}
+
+.header{
+    background-color: coral;
+    width: 100%;
+    height: 60px;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+    width: 100%;
+    background-color: beige;
+}
+
+.tabela, .carousel {
+    overflow-y: auto; /* Scroll vertical apenas */
+    overflow-x: none;
+    margin: 1px; /* Margem ao redor das divs */
+    padding: 2px;
+    box-sizing: border-box;
+}
+
+/* Estilize a tabela */
+.tabela {
+    background-color: lightgray;
+    max-height: 100%; /* Limita a altura total */
+    width: auto;
+}
+
+/* Estilize o carousel */
+.carousel {
+    background-color: lightcoral;
+    max-height: 100%; /* Limita a altura total */
+    width: auto;
+}
