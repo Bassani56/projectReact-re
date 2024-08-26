@@ -55,7 +55,7 @@ body {
 .tabela {
     /* background-color: lightgray; */
     max-height: 100%; /* Limita a altura total */
-    max-width: 40%;
+    max-width: auto;
     overflow-y: auto; /* Scroll vertical apenas */
     overflow-x: none;
     margin: 1px; /* Margem ao redor das divs */
