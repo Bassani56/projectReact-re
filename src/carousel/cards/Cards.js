@@ -1,5 +1,4 @@
 import React, { useRef, useEffect, useCallback } from 'react';
-import updateElemento from '../../utils/update';
 
 const Cards = React.memo(({ cardId, text, handleChange }) => {
   const editableRef = useRef(null);
@@ -13,7 +12,6 @@ const Cards = React.memo(({ cardId, text, handleChange }) => {
   }, [cardId, handleChange]);
 
   
-
   return (
     <div>
   
@@ -36,6 +34,7 @@ const Cards = React.memo(({ cardId, text, handleChange }) => {
           boxSizing: 'border-box',
           outline: 'none',
           tabIndex: 0,
+          fontSize: '10px'
         }}
       >
       </div>

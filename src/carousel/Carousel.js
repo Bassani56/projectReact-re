@@ -12,7 +12,7 @@ import Cards from './cards/Cards';
 import { fetchUserTable } from '../fetchUserTable';
 import { buscaStruct } from '../utils/buscaStruct';
 
-import updateElemento from '../utils/update';
+import { updateElemento } from '../utils/utils';
 
 import { useContext } from 'react';
 
@@ -112,31 +112,31 @@ const Carousel = ({ targetValue, update}) => {
        spaceBetween={50} // Espaço entre slides
        slidesPerView={1}
        navigation={{
-         nextEl: '.swiper-button-next',
-         prevEl: '.swiper-button-prev',
+           nextEl: '.swiper-button-next',
+           prevEl: '.swiper-button-prev',
        }}
        pagination={{ clickable: true }}
-       scrollbar={{ draggable: true }}
+       scrollbar={{ draggable: false }} // Desativa a rolagem
+       simulateTouch={false} // Desativa o arrasto com o mouse/touch
+       allowTouchMove={false} // Desativa a navegação por toque
        style={{
-        alignItems: 'center',
-         width: '1000px',
-         height: '100%',
-         backgroundColor: 'green',
-        // Adiciona padding ao Swiper para espaço extra
-         boxSizing: 'border-box', // Inclui padding e border no tamanho total
+           alignItems: 'center',
+           width: '1000px',
+           height: '100%',
+           boxSizing: 'border-box', // Inclui padding e border no tamanho total
        }}
-       onSlideChange={handleSlideChange}
+       onSlideChange={handleSlideChange} 
       >
         {Object.keys(structData).map((key, index) => (
           <SwiperSlide className="swiper-slide-fixed" key={index}>
             <div >
-              <h2 style={{marginTop:'1px'}}>Slide: {index + 1} / {Object.keys(structData).length}</h2>
-              <div style={{ fontSize: 'x-large', color: 'black', display: 'flex'}} >
+              <h2 style={{marginTop:'1px', fontSize: '10px'}}>Slide: {index + 1} / {Object.keys(structData).length}</h2>
+              <div style={{ fontSize: '10px', color: 'black', display: 'flex'}} >
                 <div id='cardId'>{specificCardIds[index]}</div>
               </div>
               
               {structData[specificCardIds[index]]?.folder_link ? (
-                <h2>
+                <h2 style={{fontSize: '10px'}}>
                   Link: <a href={structData[specificCardIds[index]].folder_link} target="_blank" rel="noopener noreferrer">acessar documento</a>
                 </h2>
               ) : (
@@ -144,7 +144,7 @@ const Carousel = ({ targetValue, update}) => {
               )}
 
               <div style={{
-                fontSize: 'large',
+                fontSize: '10px',
                 color: '#333',
                 fontFamily: 'Arial, sans-serif',
                 padding: '10px',

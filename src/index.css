@@ -2,7 +2,7 @@ body {
     height: 100%;
     width: 100%;
     margin: 0;
-    background-color: cadetblue;
+    background-color: rgb(232, 242, 245);
 }
 
 .total {
@@ -10,7 +10,7 @@ body {
 }
 
 .header {
-    background-color: coral;
+    background-color: rgb(99, 95, 95);
     width: 100%;
     height: 60px;
     position: fixed; /* Faz o header ficar fixo no topo */
@@ -24,7 +24,8 @@ body {
     height: 100%;
     display: flex; /* Se você deseja que o conteúdo interno também esteja alinhado */
     align-items: center; /* Centraliza verticalmente o conteúdo */
-    justify-content: center; /* Centraliza horizontalmente o conteúdo */
+    
+    margin-left: 2%;
 }
 
 .dir {
@@ -38,22 +39,21 @@ body {
 .app {
     display: flex;
     height: 100vh;
-    width: 100%;
-    background-color: beige;
+    width: 100%; 
     padding-top: 60px; /* Espaço suficiente para o header */
     box-sizing: border-box;
+    border: 4px solid black;
 }
 
 .container {
     display: flex;
     height: calc(100vh - 60px); /* Ajusta a altura para não se sobrepor ao header */
     width: 100%;
-    background-color: beige;
 }
 
 /* Estilize a tabela */
 .tabela {
-    background-color: lightgray;
+    /* background-color: lightgray; */
     max-height: 100%; /* Limita a altura total */
     max-width: 40%;
     overflow-y: auto; /* Scroll vertical apenas */
@@ -61,16 +61,15 @@ body {
     margin: 1px; /* Margem ao redor das divs */
     padding: 2px;
     box-sizing: border-box;
+    border: 1px solid black;
 }
 
 /* Estilize o carousel */
 .carousel {
-    background-color: lightcoral;
     max-height: calc(100vh - 60px); /* Limita a altura total */
     width: auto;
     overflow-y: auto; /* Scroll vertical apenas */
     overflow-x: none;
-    margin: 1px; /* Margem ao redor das divs */
-    padding: 2px;
+    margin-right: 0%;
     box-sizing: border-box;
 }

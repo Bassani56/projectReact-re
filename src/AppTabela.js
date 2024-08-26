@@ -7,6 +7,10 @@ import Carousel from './carousel/Carousel';
 import React, {Children, createContext, useState } from 'react';
 
 import { ButtonContext } from './context/ThemeContext';
+import Pesquisa from './pesquisaCards/Pesquisa';
+
+import HeaderRight from './header/Header';
+import Conteudo from './pesquisaCards/Conteudo';
 
 function AppTabela() {
 
@@ -15,18 +19,11 @@ function AppTabela() {
 
   const [button, setButton] = useState(null);
 
-
   return (
     <ButtonContext.Provider value={{ button, setButton }}>
       <div className='total'>
         <header className='header'>
-          <div className='esq'>
-
-          </div>
-          <div className='dir'>
-            {button}
-          </div>
-          
+          <HeaderRight button={button}/>
         </header>
 
         <div className='app'>
@@ -45,6 +42,11 @@ function AppTabela() {
 
           </div>
         </div>
+
+        <div>
+            <Conteudo update={setGetAtualizou}/>
+        </div>
+
       </div>
 
     </ButtonContext.Provider>

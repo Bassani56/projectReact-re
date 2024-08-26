@@ -13,6 +13,7 @@ export async function fetchData(id) {
       }
       if (data && data.length > 0) {
         const json_text = JSON.stringify(data[0].struct, null, 2); // Ajustado para 'struct'
+        console.log("json_text: ", json_text)
         return json_text;
       } else {
         console.log('Nenhum dado encontrado para o ID:', id);
