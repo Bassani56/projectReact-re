@@ -3,9 +3,8 @@ import { supabase } from '../supabaseClient';
 import { getTextAreaValue } from './buscaTexteArea';
 // Função para buscar dados da tabela "cardsn"
 
-import { fetchUserTable } from '../fetchUserTable';
-
 import { fetchData } from '../fetchData';
+import foundData from '../foundData';
 
 async function buscarElemento() {
   var userId = document.getElementById('idInput').value; // Obtém o ID do usuário
@@ -14,35 +13,34 @@ async function buscarElemento() {
   const jsonInputElement = document.getElementById("jsonInput");
   const modeloInputElement = document.getElementById("modeloInput");
   
-    console.log(jsonInputElement)
-    console.log(modeloInputElement)
+    // console.log(jsonInputElement.value)
+    // console.log(modeloInputElement.value)
     
-    //   try {
-    //       const accountingData = await fetchUserTable(userId);
-          
-    //       console.log('accountData: ', accountingData);
-    //   } catch (error) {
-    //       console.error('Erro ao buscar resumo contábil:', error);
-    //   }
-
     try {
-      const json_text = await fetchData(userId);
-      // console.log(json_text);
+      const json_text = await foundData(userId);
+      console.log(json_text);
       if (json_text) {
-   
+
         // console.log("jsonInputElement: ", jsonInputElement)
         if (jsonInputElement && modeloInputElement) {
           jsonInputElement.value = json_text; // Preenche a textarea com o JSON recuperado
           modeloInputElement.value = json_text;
-          console.log('json_text: ', json_text) // Preenche a textarea original com o JSON recuperado
+          console.log('json_text: ', json_text)
+          return json_text; // Preenche a textarea original com o JSON recuperado
         } else {
           console.error('Elementos jsonInput ou modeloInput não encontrados.');
+          return null;
         }
-      } else { console.log('Não foi possível encontrar dados para o ID:', userId); }
+      } else { 
+        console.log('Não foi possível encontrar dados para o ID:', userId);
+        return null;
+       }
     } 
     
-    catch (error) { console.error('Erro ao buscar dados:', error.message); }
- 
+    catch (error) { 
+      console.error('Erro ao buscar dados:', error.message); 
+      return null;
+    }
 }
 
 // Função para validar JSON

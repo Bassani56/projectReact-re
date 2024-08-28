@@ -34,7 +34,8 @@ const Cards = React.memo(({ cardId, text, handleChange }) => {
           boxSizing: 'border-box',
           outline: 'none',
           tabIndex: 0,
-          fontSize: '10px'
+          fontSize: '10px',
+          fontFamily: 'courier'
         }}
       >
       </div>

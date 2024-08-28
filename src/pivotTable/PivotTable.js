@@ -40,7 +40,6 @@ function PivotTableComponent({setCarousel, setGetAtualizou, update}) {
         const combinedCardIdsList = getUniqueItems(card_ids_list.flat()); // Achata os arrays em um único array
 
         setCardsAtual(combinedCardIdsList);
-        
         // console.log('combinedCardIdsList: ', combinedCardIdsList)
     }
 

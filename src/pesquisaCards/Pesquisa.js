@@ -1,7 +1,7 @@
-
 import { buscarElemento } from "../utils/utils"
-
+import { useState } from "react"
 export default function Pesquisa(){
+    
     return(
         <>
             <input type="text" id="idInput"/>
