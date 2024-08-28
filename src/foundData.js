@@ -1,37 +1,25 @@
-// import { useState } from "react";
-// import { supabase } from "./supabaseClient";
 
-// export default function teste(){
+import { supabase } from "./supabaseClient";
 
-//     const[nome, setNome] = useState(null)
+export default async function foundData(nome) {
+    try {
+        const { data, error } = await supabase
+            .rpc('search_for_name', { party_name: nome });
 
-//     async function foundData(name){
-//         try{
-//             const { data, error } = await supabase
-//             .rpc('search_for_name', { name });
-    
-//             if(data){
-//                 console.log(data)
-//                 setNome(data)
-//             }
-    
-//             if (error) {
-//                 console.error('Error:', error);
-//                 return;
-//             }
-//         }
-    
-//         catch(error){
-//             console.error('Erro: ', error)
-//         }
-    
-//     }
-//     foundData('W')
+        if (error) {
+            console.error('Error:', error);
+            return;
+        }
 
-//     return(
-//         <>
-//             {nome}
-//         </>
-//     )
+        if (data) {
+            return data;
+        }
+    } catch (error) {
+        console.error('Erro: ', error);
+        return;
+    }
+}
 
-// }
+
+
+  

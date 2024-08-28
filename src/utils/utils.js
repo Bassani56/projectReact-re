@@ -6,31 +6,15 @@ import { getTextAreaValue } from './buscaTexteArea';
 import { fetchData } from '../fetchData';
 import foundData from '../foundData';
 
-async function buscarElemento() {
+  async function buscarElemento() {
   var userId = document.getElementById('idInput').value; // Obtém o ID do usuário
-  // console.log('uerId', userId, ' é um: ', typeof(userId))
 
-  const jsonInputElement = document.getElementById("jsonInput");
-  const modeloInputElement = document.getElementById("modeloInput");
-  
-    // console.log(jsonInputElement.value)
-    // console.log(modeloInputElement.value)
-    
     try {
       const json_text = await foundData(userId);
-      console.log(json_text);
       if (json_text) {
-
-        // console.log("jsonInputElement: ", jsonInputElement)
-        if (jsonInputElement && modeloInputElement) {
-          jsonInputElement.value = json_text; // Preenche a textarea com o JSON recuperado
-          modeloInputElement.value = json_text;
-          console.log('json_text: ', json_text)
-          return json_text; // Preenche a textarea original com o JSON recuperado
-        } else {
-          console.error('Elementos jsonInput ou modeloInput não encontrados.');
-          return null;
-        }
+        console.log(json_text)
+        return json_text;
+        
       } else { 
         console.log('Não foi possível encontrar dados para o ID:', userId);
         return null;

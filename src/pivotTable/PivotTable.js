@@ -7,8 +7,9 @@ import 'pivottable/dist/pivot.css';
 import { fetchUserTable } from "../fetchUserTable";
 import { useContext } from "react";
 import { VoltarContext } from '../context/ThemeContext';
+import Pesquisa from "../pesquisaCards/Pesquisa";
 
-function PivotTableComponent({setCarousel, setGetAtualizou, update}) {
+function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) {
     const [data, setData] = useState([]);
     const [currentViewIndex, setCurrentViewIndex] = useState(-1);
     const [history, setHistory] = useState([]);
@@ -57,39 +58,50 @@ function PivotTableComponent({setCarousel, setGetAtualizou, update}) {
     }, [data, pivotOptions]);
 
     // console.log('currentViewIndex: ', currentViewIndex)
-    // if (update) {
-    //     const update = async () =>{
-    //         try{
-    //             console.log('history[currentViewIndex].data: ', history[currentViewIndex].data)
-    //             const accountingData = await fetchUserTable(history[currentViewIndex].data);
-    //             setData(accountingData);
-    //             setGetAtualizou(false)
-    //         } catch(error){
-    //             console.error(error)
-    //         }
-    //     }
+    if (update) {
+        const update = async () =>{
+            try{
+                console.log('history[currentViewIndex].data: ', history[currentViewIndex].data)
+                const accountingData = await fetchUserTable(history[currentViewIndex].data);
+                setData(accountingData);
+                setGetAtualizou(false)
+            } catch(error){
+                console.error(error)
+            }
+        }
 
-    //     update()
+        update()
 
-    //   } else {
-    //     // console.log('falso');
-    //   }
+      } else {
+        // console.log('falso');
+      }
       
-    useEffect(() => {    
+      useEffect(() => {    
         const fetchAccountSummary = async () => {
             try {
                 const accountingData = await getAccountingSummary();
                 setData(accountingData);
-                setCurrentViewIndex(0)
+                setCurrentViewIndex(0);
                 setHistory([{ data: accountingData, filters: {} }]);
             } catch (error) {
                 console.error('Erro ao buscar accountData:', error);
             }
+        };
+    
+        if (!pesquisa) {
+            // Se não houver pesquisa, buscar o resumo contábil
+            fetchAccountSummary();
+            console.log("pesquisa: ", pesquisa);
+        } else {
+            // Se houver pesquisa, usar os dados de pesquisa
+            console.log('PESQUISA >>>>>>>>>>>>>>>>>>>>>>');
+            setData(pesquisa);
+            setCurrentViewIndex(0);
+            setHistory([{ data: pesquisa, filters: {} }]);
         }
-        
-        fetchAccountSummary();
-    }, []);
-
+    
+    }, []);  // Adiciona 'pesquisa' como dependência
+    
     useEffect(() =>{
         console.log('currentViewIndex: ', currentViewIndex)   
     },[currentViewIndex])
