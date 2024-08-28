@@ -9,7 +9,7 @@ import { fetchData } from '../fetchData';
 
 async function buscarElemento() {
   var userId = document.getElementById('idInput').value; // Obtém o ID do usuário
-  console.log('uerId', userId, ' é um: ', typeof(userId))
+  // console.log('uerId', userId, ' é um: ', typeof(userId))
 
   const jsonInputElement = document.getElementById("jsonInput");
   const modeloInputElement = document.getElementById("modeloInput");

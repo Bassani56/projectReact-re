@@ -36,7 +36,7 @@ const Carousel = ({ targetValue, update}) => {
 
   useEffect(() => {
     setSpecificCardIds(targetValue);
-    
+    // console.log('targetValue: ', targetValue)
     if (specificCardIds.length > 0) {
       setBusca(true);
       

@@ -1,9 +1,10 @@
 import Pesquisa from "../pesquisaCards/Pesquisa"
-export default function HeaderRight({button}){
-    
+export default function HeaderRight({button, voltar}){
+    // console.log(voltar)
     return(
         <>
             <div className='esq'>
+                {voltar}
                 <Pesquisa/>
             </div>
 

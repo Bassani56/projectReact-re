@@ -1,7 +1,9 @@
-// Primeiro, certifique-se de ter importado o cliente Supabase
+
 import { supabase } from "./supabaseClient";// Caminho para o seu arquivo supabaseClient.js
 
 export async function fetchUserTable(cardIdList) {
+  await new Promise(resolve => setTimeout(resolve, 750));
+  
   // Converta a lista de card_ids para uma string no formato necessário para a query
   
   let formattedCardIdList;

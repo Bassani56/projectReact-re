@@ -7,3 +7,10 @@ const ButtonContext = createContext({
 });
 
 export {ButtonContext}
+
+const VoltarContext= createContext({
+  setVoltar: () => {},
+  voltar: null
+});
+
+export {VoltarContext}
