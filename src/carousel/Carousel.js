@@ -134,6 +134,7 @@ const Carousel = ({ targetValue, update}) => {
         }}
         onSlideChange={handleSlideChange} 
         >
+          <Suspense fallback={<div>Carregando ... </div>}>
           {Object.keys(structData).map((key, index) => (
             <SwiperSlide className="swiper-slide-fixed" key={index}>
               <div >
@@ -175,6 +176,8 @@ const Carousel = ({ targetValue, update}) => {
               />
             </SwiperSlide>
           ))}
+          </Suspense>
+          
         </Swiper>
       </Suspense>
     </div>
