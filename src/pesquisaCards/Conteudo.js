@@ -2,9 +2,7 @@ import { useState } from "react";
 import { updateElemento } from "../utils/utils";
 import { inserirElemento } from "../utils/utils";
 
-import Carousel from "../carousel/Carousel";
-
-export default function Conteudo({update, data}){
+export default function Conteudo({update}){
 
     const atualizarElemento = async (someById, someId, boolean) => {
         console.log("ById: ", someById, "    id: ", someId, "    valor: ", boolean);
@@ -30,9 +28,6 @@ export default function Conteudo({update, data}){
             <label htmlFor="modeloLabel"><br /> Modelo Fixo:</label><br />
             <textarea id="modeloInput" name="json" rows="32" cols="50" readOnly></textarea><br />
             </div>
-           
-
-            { data && <div><Carousel data={data}/></div>}
         </>
     )
 }

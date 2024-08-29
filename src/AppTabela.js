@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import PivotTableComponent from './pivotTable/PivotTable';
 import ErrorBoundary from './ErrorBoundary';
-import Carousel from './carousel/Carousel';
+// import Carousel from './carousel/Carousel';
 import { ButtonContext, VoltarContext } from './context/ThemeContext';
 import HeaderRight from './header/header';
 import Conteudo from './pesquisaCards/Conteudo';
+
+import { Suspense } from 'react';
+
+const Carousel = React.lazy(() => import('./carousel/Carousel'))
 
 function AppTabela() {
   const [valueCarousel, setGetCarousel] = useState([]);
   const [atualizou, setGetAtualizou] = useState(false);
   const [button, setButton] = useState(null);
   const [voltar, setVoltar] = useState(null);
-  const [pesquisa, setPesquisa] = useState([]);
+  const [pesquisaName, setPesquisaName] = useState([]);
+  const [pesquisaId, setPesquisaId] = useState([]);
+
   const [ultimoAtualizado, setUltimoAtualizado] = useState(null); // Novo estado para rastrear o último atualizado
 
   // Funções para definir os valores e marcar o último atualizado
@@ -20,17 +26,22 @@ function AppTabela() {
     setUltimoAtualizado('carousel'); // Marca que o último atualizado foi o valueCarousel
   };
 
-  const handleSetPesquisa = (value) => {
-    setPesquisa(value);
-    setUltimoAtualizado('pesquisa'); // Marca que o último atualizado foi pesquisa
+  const handleSetPesquisaName = (value) => {
+    setPesquisaName(value);
+    setUltimoAtualizado('pesquisaName'); // Marca que o último atualizado foi pesquisa
   };
-  
+
+  const handleSetPesquisaId = (value) =>{
+    setPesquisaId(value)
+    setUltimoAtualizado('pesquisaId')
+  };
+
   return (
     <ButtonContext.Provider value={{ button, setButton }}>
       <VoltarContext.Provider value={{ voltar, setVoltar }}>
         <div className="total">
           <header className="header">
-            <HeaderRight button={button} voltar={voltar} setPesquisa={handleSetPesquisa} />
+            <HeaderRight button={button} voltar={voltar} setPesquisaName={handleSetPesquisaName} setPesquisaId={handleSetPesquisaId} />
           </header>
 
           <div className="app">
@@ -38,33 +49,36 @@ function AppTabela() {
               <div className="tabela">
                 <ErrorBoundary>
                 {
-  ultimoAtualizado === 'pesquisa' ? (
-    <PivotTableComponent
-      pesquisa={pesquisa}
-      setCarousel={handleSetCarousel}
-      setGetAtualizou={setGetAtualizou}
-      update={atualizou}
-    />
-  ) : (
-    <PivotTableComponent
-      pesquisa={null}
-      setCarousel={handleSetCarousel}
-      setGetAtualizou={setGetAtualizou}
-      update={atualizou}
-    />
-  )
-}
-
+                  ultimoAtualizado === 'pesquisaName' ? (
+                    <PivotTableComponent
+                      pesquisa={pesquisaName}
+                      setCarousel={handleSetCarousel}
+                      setGetAtualizou={setGetAtualizou}
+                      update={atualizou}
+                    />
+                  ) : (
+                    <PivotTableComponent
+                      pesquisa={null}
+                      setCarousel={handleSetCarousel}
+                      setGetAtualizou={setGetAtualizou}
+                      update={atualizou}
+                    />
+                  )
+                }
                 </ErrorBoundary>
               </div>
 
               <div className="carousel">
                 {/* Renderiza o Carousel com base no último estado atualizado */}
-                {ultimoAtualizado === 'pesquisa' && pesquisa.length > 0 ? (
-                  <Carousel targetValue={pesquisa} update={setGetAtualizou} />
-                ) : ultimoAtualizado === 'carousel' && valueCarousel.length > 0 ? (
-                  <Carousel targetValue={valueCarousel} update={setGetAtualizou} />
-                ) : null}
+                <Suspense fallback={<div>Carregando</div>}>
+                  {ultimoAtualizado === 'pesquisaName' && pesquisaName.length > 0 ? (
+                    <Carousel targetValue={pesquisaName} update={setGetAtualizou} />
+                  ) : ultimoAtualizado === 'carousel' && valueCarousel.length > 0 ? (
+                    <Carousel targetValue={valueCarousel} update={setGetAtualizou} />
+                  ) : ultimoAtualizado === 'pesquisaId' && pesquisaId.length > 0 ? (
+                    <Carousel targetValue={pesquisaId} update={setGetAtualizou}/>
+                  ) : null}
+                </Suspense>
               </div>
             </div>
           </div>

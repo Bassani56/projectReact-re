@@ -7,7 +7,7 @@ import 'pivottable/dist/pivot.css';
 import { fetchUserTable } from "../fetchUserTable";
 import { useContext } from "react";
 import { VoltarContext } from '../context/ThemeContext';
-import Pesquisa from "../pesquisaCards/Pesquisa";
+import Pesquisa from "../pesquisaCards/PesquisaName";
 
 function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) {
     const [data, setData] = useState([]);
@@ -48,7 +48,7 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         if (data.length > 0) {
             try {
                 $("#output").pivotUI(data, pivotOptions);
-                // console.log('data: ', data)
+                console.log('pivotUI: ', data)
             } catch (error) {
                 console.error("Error rendering PivotTable UI:", error);
             }
@@ -62,7 +62,14 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         const update = async () =>{
             try{
                 console.log('history[currentViewIndex].data: ', history[currentViewIndex].data)
-                const accountingData = await fetchUserTable(history[currentViewIndex].data);
+                let accountingData;
+
+                if(currentViewIndex != 0){
+                    accountingData = await fetchUserTable(history[currentViewIndex].data);
+                } else{
+                    accountingData = await getAccountingSummary();
+                }
+
                 setData(accountingData);
                 setGetAtualizou(false)
             } catch(error){
@@ -71,13 +78,11 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         }
 
         update()
-
-      } else {
-        // console.log('falso');
-      }
+    } 
       
-      useEffect(() => {    
+    useEffect(() => {    
         const fetchAccountSummary = async () => {
+
             try {
                 const accountingData = await getAccountingSummary();
                 setData(accountingData);
@@ -89,18 +94,16 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         };
     
         if (!pesquisa) {
-            // Se não houver pesquisa, buscar o resumo contábil
             fetchAccountSummary();
             console.log("pesquisa: ", pesquisa);
         } else {
-            // Se houver pesquisa, usar os dados de pesquisa
             console.log('PESQUISA >>>>>>>>>>>>>>>>>>>>>>');
             setData(pesquisa);
             setCurrentViewIndex(0);
             setHistory([{ data: pesquisa, filters: {} }]);
         }
     
-    }, []);  // Adiciona 'pesquisa' como dependência
+    }, []);  
     
     useEffect(() =>{
         console.log('currentViewIndex: ', currentViewIndex)   

@@ -12,6 +12,7 @@ export default async function foundData(nome) {
         }
 
         if (data) {
+            console.log('found data: ', data)
             return data;
         }
     } catch (error) {

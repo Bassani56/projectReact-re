@@ -20,12 +20,13 @@ body {
 }
 
 .esq {
-    width: 50%;
+    width: 60%;
     height: 100%;
     display: flex; /* Se você deseja que o conteúdo interno também esteja alinhado */
     align-items: center; /* Centraliza verticalmente o conteúdo */
+    background-color: aliceblue;
     
-    margin-left: 2%;
+    margin-left: 0%;
 }
 
 .dir {

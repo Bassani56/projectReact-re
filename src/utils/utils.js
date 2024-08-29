@@ -6,9 +6,30 @@ import { getTextAreaValue } from './buscaTexteArea';
 import { fetchData } from '../fetchData';
 import foundData from '../foundData';
 
-  async function buscarElemento() {
-  var userId = document.getElementById('idInput').value; // Obtém o ID do usuário
+  async function buscarElementoName() {
+    var userId = document.getElementById('nameInput').value; // Obtém o ID do usuário
+    console.log('nameInput: ', userId)
+    try {
+      const json_text = await foundData(userId);
+      if (json_text) {
+        console.log("buscarElementoName: ", json_text)
+        return json_text;
+        
+      } else { 
+        console.log('Não foi possível encontrar dados para o ID:', userId);
+        return null;
+       }
+    } 
+    
+    catch (error) { 
+      console.error('Erro ao buscar dados:', error.message); 
+      return null;
+    }
+  }
 
+  async function buscarElementoId() {
+    var userId = document.getElementById('idInput').value; // Obtém o ID do usuário
+    console.log('idInput: ', userId)
     try {
       const json_text = await foundData(userId);
       if (json_text) {
@@ -25,7 +46,9 @@ import foundData from '../foundData';
       console.error('Erro ao buscar dados:', error.message); 
       return null;
     }
-}
+  }
+
+
 
 // Função para validar JSON
 function validarJson(ById) {
@@ -153,4 +176,4 @@ async function processarEmail() {
   document.getElementById('mensagemInput').innerText = data.resultado;
 }
 
-export { buscarElemento, validarJson, updateElemento, processarEmail, inserirElemento};
+export { buscarElementoName, buscarElementoId, validarJson, updateElemento, processarEmail, inserirElemento};

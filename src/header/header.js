@@ -1,11 +1,14 @@
-import Pesquisa from "../pesquisaCards/Pesquisa"
-export default function HeaderRight({button, voltar, setPesquisa}){
+import PesquisaName from "../pesquisaCards/PesquisaName"
+import PesquisaId from "../pesquisaCards/PesquisaId"
+
+export default function HeaderRight({button, voltar, setPesquisaName, setPesquisaId}){
     
     return(
         <>
             <div className='esq'>
                 {voltar}
-                <Pesquisa setPesquisa={setPesquisa}/>
+                <PesquisaName setPesquisa={setPesquisaName}/>
+                <PesquisaId setPesquisa={setPesquisaId}/>
             </div>
 
             <div className='dir'>

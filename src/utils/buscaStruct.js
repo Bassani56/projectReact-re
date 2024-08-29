@@ -1,6 +1,7 @@
 import { supabase } from "../supabaseClient";
 
 export const buscaStruct = async (specificCardIds) => {
+    await new Promise(resolve => setTimeout(resolve, 750));
     try {
         const { data, error } = await supabase
             .from('cardsn')
@@ -12,6 +13,7 @@ export const buscaStruct = async (specificCardIds) => {
             return null;
         } else {
             const newStructData = {};
+            console.log('data busca struct: ', data)
             data.forEach(item => { newStructData[item.card_id] = item.struct; });
 
             const orderedStructData = specificCardIds.reduce((acc, id) => {
