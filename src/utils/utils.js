@@ -104,7 +104,7 @@ async function updateElemento({ ById, id, valor }) {
     newContent = getTextAreaValue(id);
   }
 
-  console.log('Conteúdo antes do parse:', newContent);
+  // console.log('Conteúdo antes do parse:', newContent);
 
   if (!newContent) {
     window.alert('Conteúdo JSON não pode estar vazio!');
@@ -131,7 +131,7 @@ async function updateElemento({ ById, id, valor }) {
       window.alert('Erro ao atualizar dados: ' + error.message);
       return false;
     } else {
-      console.log('Dados atualizados com sucesso:', data);
+      // console.log('Dados atualizados com sucesso:', data);
       // window.alert('Dados atualizados com sucesso!');
       return true;
     }
@@ -141,9 +141,7 @@ async function updateElemento({ ById, id, valor }) {
     return false;
   }
 }
-
-
-  
+ 
 async function processarEmail() {
   const texto = document.getElementById('emailContent').value;
   const response = await fetch('/processar_email', {

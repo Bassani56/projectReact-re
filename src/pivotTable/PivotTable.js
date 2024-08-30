@@ -64,6 +64,7 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
 
                 if(current != 0){
                     accountingData = await fetchUserTable(history[current].data);
+                    console.log('U P D A T E : ', accountingData)
                 } else{
                     accountingData = await getAccountingSummary();
                 }
@@ -165,7 +166,7 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
     // console.log('history current: ', history[current])
 
     useEffect(()=>{
-        async function carrega(){
+        function carrega(){
             const previousView = history[current];
             // console.log('previousView: ', previousView)
 
@@ -188,10 +189,22 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
             
         }
          
-        if(current === 0){
-            setCarousel('')
-            setData(history[current].data)
+        async function buffer() {
+             const cardsSpecifics = await getAccountingSummary();
+             setCarousel('')
+             setData(cardsSpecifics)
         }
+
+        document.getElementById('botaoVoltar').addEventListener('click', function() {
+            console.log(' V O L T O U >>>>')
+            if(current === 0){
+                buffer()
+            }
+            // Aqui você pode adicionar outras ações que deseja realizar ao clicar no botão
+        });
+
+        
+
     },[current])
 
     return (
