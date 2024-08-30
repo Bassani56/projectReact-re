@@ -94,43 +94,55 @@ async function inserirElemento() {
 
 async function updateElemento({ ById, id, valor }) {
   let newContent;
-  console.log(ById, id, valor)
+  console.log(ById, id, valor);
 
-  if(!valor){ newContent = document.getElementById(ById).value; }
+  if (!valor) {
+    newContent = document.getElementById(ById).value;
+  }
 
-  if(valor){ newContent = getTextAreaValue(id); }
-  // console.log('newContent: ', newContent)
+  if (valor) {
+    newContent = getTextAreaValue(id);
+  }
+
+  console.log('Conteúdo antes do parse:', newContent);
+
   if (!newContent) {
     window.alert('Conteúdo JSON não pode estar vazio!');
     return false;
   }
 
-  try { newContent = JSON.parse(newContent); } 
-  catch (e) {
+  try {
+    newContent = JSON.parse(newContent);
+  } catch (e) {
     window.alert('Conteúdo inválido! Certifique-se de inserir um JSON válido.');
     console.error('Erro ao parsear JSON:', e.message);
     return false;
   }
 
   try {
-    const { error } = await supabase
+    const { data, error } = await supabase
       .from('cardsn')
       .update({ struct: newContent })
-      .eq('card_id', id)
+      .eq('card_id', id.trim())
+      .select(); // Obtém os dados atualizados
 
     if (error) {
       console.error('Erro ao atualizar dados:', error);
       window.alert('Erro ao atualizar dados: ' + error.message);
       return false;
+    } else {
+      console.log('Dados atualizados com sucesso:', data);
+      // window.alert('Dados atualizados com sucesso!');
+      return true;
     }
-    else{ return true; }
- 
   } catch (error) {
     console.error('Erro ao atualizar dados:', error.message);
     window.alert('Erro ao atualizar dados: ' + error.message);
     return false;
   }
 }
+
+
   
 async function processarEmail() {
   const texto = document.getElementById('emailContent').value;

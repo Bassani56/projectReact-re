@@ -130,7 +130,7 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
             }
         }
         
-       if (flag) {
+        if (flag) {
             setCurrent(prevIndex => {
                 return prevIndex + 1;
             });
@@ -167,7 +167,8 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
     useEffect(()=>{
         async function carrega(){
             const previousView = history[current];
-                // console.log('previousView: ', previousView)
+            // console.log('previousView: ', previousView)
+
             if (previousView) {
                 // console.log("previousView: ", previousView.data)            
                 setCarousel(previousView.data)
@@ -179,13 +180,12 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
                     return newHistory;
                 });
                         
-            } else {
-                console.error('Dados inválidos no histórico.');
-            }
+            } 
         }
 
         if (current > 0) {
             carrega();
+            
         }
          
         if(current === 0){

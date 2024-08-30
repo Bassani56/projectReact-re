@@ -10,19 +10,17 @@ import { Navigation } from 'swiper/modules'; // Importação corrigida
 
 import Cards from './cards/Cards';
 import { buscaStruct } from '../utils/buscaStruct';
-import { updateElemento } from '../utils/utils';
 
-import { ButtonContext } from '../context/ThemeContext';
 
-const Carousel = ({ targetValue, update}) => {
+import { CurrentContext } from '../context/ThemeContext';
+
+const Carousel = ({ targetValue}) => {
   const [specificCardIds, setSpecificCardIds] = useState([]);
   const [texts, setTexts] = useState({});
   const [structData, setStructData] = useState({});
   const [swiperInstance, setSwiperInstance] = useState(null);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const { setButton } = useContext(ButtonContext);
+  const {setIndexSwiper} = useContext(CurrentContext);
 
   useEffect(() => {
     setSpecificCardIds(targetValue);
@@ -56,35 +54,8 @@ const Carousel = ({ targetValue, update}) => {
     }
   };
 
-  useEffect(() => {
-    const returnBotao = () => {
-      return (
-        <button id='botaoCards' type="button" onClick={() => { 
-          atualizarElemento('card', document.getElementById(`cardId-${currentIndex}`).textContent, true);
-        }}>Update JSON</button>
-      );
-    };
-
-    setButton(returnBotao()); // Atualize o botão no contexto
-
-    return () => setButton(null); // Limpe o botão quando o componente for desmontado
-  }, [setButton]);
-
-
-  const atualizarElemento = async (someById, someId, boolean) => {
-    console.log(someById, someId, boolean);
-    const result = await updateElemento({ ById: someById, id: someId, valor: boolean });
-    
-    if (result) {
-        window.alert('Atualização realizada com sucesso');
-        update(true);
-    } else {
-        console.log('Falha na atualização');
-    }
-  };
-
   const handleSlideChange = (swiper) => {   
-    setCurrentIndex(swiper.activeIndex);
+    setIndexSwiper(swiper.activeIndex);
   };
 
   return (
