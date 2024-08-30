@@ -1,5 +1,4 @@
-import { buscarElementoId } from "../utils/utils"
-import { useState } from "react"
+
 import './index.css'
 
 export default function PesquisaId({setPesquisa}){

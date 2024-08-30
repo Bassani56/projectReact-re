@@ -1,10 +1,7 @@
-
-import { supabase } from "./supabaseClient";// Caminho para o seu arquivo supabaseClient.js
+import { supabase } from "./supabaseClient";
 
 export async function fetchUserTable(cardIdList) {
-  
   await new Promise(resolve => setTimeout(resolve, 750));
-  // Converta a lista de card_ids para uma string no formato necessário para a query
   
   let formattedCardIdList;
   if(typeof(cardIdList) !== 'string'){
@@ -12,8 +9,8 @@ export async function fetchUserTable(cardIdList) {
   }else{
      formattedCardIdList = cardIdList;
   }
-//   console.log('formated Cards: ', formattedCardIdList)
-  // Execute a query chamando a função SQL e passando a lista de card_ids
+  //console.log('formated Cards: ', formattedCardIdList)
+  
   const { data, error } = await supabase
     .rpc('user_table', { card_id_list: formattedCardIdList });
 

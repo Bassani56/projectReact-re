@@ -14,7 +14,6 @@ const Cards = React.memo(({ cardId, text, handleChange }) => {
   
   return (
     <div>
-  
       <div
         ref={editableRef}
         id={`textarea-${cardId}`}

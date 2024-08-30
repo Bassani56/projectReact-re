@@ -1,18 +1,16 @@
 import { getAccountingSummary } from "../server";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import $, { get } from 'jquery';
 import 'jquery-ui/ui/widgets/sortable';
 import 'pivottable';
 import 'pivottable/dist/pivot.css';
 import { fetchUserTable } from "../fetchUserTable";
 import { useContext } from "react";
-import { VoltarContext } from '../context/ThemeContext';
-import Pesquisa from "../pesquisaCards/PesquisaName";
+import { CurrentContext } from '../context/ThemeContext';
 
 function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) {
     const [data, setData] = useState([]);
-    const [currentViewIndex, setCurrentViewIndex] = useState(-1);
-    const [history, setHistory] = useState([]);
+    
     const[cardsAtual, setCardsAtual] = useState([])
     const [pivotOptions, setPivotOptions] = useState({
         rows: ["conta"],
@@ -27,8 +25,8 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         }
     });
 
-    const[buffer, setBuffer] = useState(false)
-
+    const {history, setHistory, current, setCurrent } = useContext(CurrentContext);
+    
     function handleClick(e, value, filters, pivotData) {
         e.preventDefault();
         let card_ids_list = [];
@@ -48,7 +46,7 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         if (data.length > 0) {
             try {
                 $("#output").pivotUI(data, pivotOptions);
-                console.log('pivotUI: ', data)
+                // console.log('pivotUI: ', data)
             } catch (error) {
                 console.error("Error rendering PivotTable UI:", error);
             }
@@ -57,15 +55,15 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         }
     }, [data, pivotOptions]);
 
-    // console.log('currentViewIndex: ', currentViewIndex)
+    // console.log('current: ', current)
     if (update) {
         const update = async () =>{
             try{
-                console.log('history[currentViewIndex].data: ', history[currentViewIndex].data)
+                // console.log('history[current].data: ', history[current].data)
                 let accountingData;
 
-                if(currentViewIndex != 0){
-                    accountingData = await fetchUserTable(history[currentViewIndex].data);
+                if(current != 0){
+                    accountingData = await fetchUserTable(history[current].data);
                 } else{
                     accountingData = await getAccountingSummary();
                 }
@@ -82,11 +80,10 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
       
     useEffect(() => {    
         const fetchAccountSummary = async () => {
-
             try {
                 const accountingData = await getAccountingSummary();
                 setData(accountingData);
-                setCurrentViewIndex(0);
+                setCurrent(0);
                 setHistory([{ data: accountingData, filters: {} }]);
             } catch (error) {
                 console.error('Erro ao buscar accountData:', error);
@@ -95,20 +92,20 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
     
         if (!pesquisa) {
             fetchAccountSummary();
-            console.log("pesquisa: ", pesquisa);
         } else {
-            console.log('PESQUISA >>>>>>>>>>>>>>>>>>>>>>');
             setData(pesquisa);
-            setCurrentViewIndex(0);
+            setCurrent(0);
             setHistory([{ data: pesquisa, filters: {} }]);
         }
     
     }, []);  
     
-    useEffect(() =>{
-        console.log('currentViewIndex: ', currentViewIndex)   
-    },[currentViewIndex])
+    // useEffect(() =>{
+    //     console.log('current: ', current)   
+    // },[current])
     
+    console.log('current FORA: ', current)
+
     useEffect(()=>{
         console.log('history: ', history)
     },[history])
@@ -116,12 +113,12 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
     useEffect(() =>{
         let flag = true;
         
-        if (currentViewIndex >= 1) {
+        if (current >= 1) {
             if (Array.isArray(history)) {
-                if(history[currentViewIndex].data.length === cardsAtual.length){
-                    for(let i = 0; i < history[currentViewIndex].data.length; i++){
-                        if(history[currentViewIndex].data[i] === cardsAtual[i]){
-                            // console.log(history[currentViewIndex].data[i] + '  =  ' + cardsAtual[i])
+                if(history[current].data.length === cardsAtual.length){
+                    for(let i = 0; i < history[current].data.length; i++){
+                        if(history[current].data[i] === cardsAtual[i]){
+                            // console.log(history[current].data[i] + '  =  ' + cardsAtual[i])
                             flag = false;
                             break;
                         }
@@ -134,12 +131,12 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         }
         
        if (flag) {
-            setCurrentViewIndex(prevIndex => {
+            setCurrent(prevIndex => {
                 return prevIndex + 1;
             });
 
             setHistory(prevHistory => { 
-                const newHistory = [...prevHistory.slice(0, currentViewIndex + 1), { data: cardsAtual }];
+                const newHistory = [...prevHistory.slice(0, current + 1), { data: cardsAtual }];
                 
                 // console.log('New History:', newHistory); // Adiciona log para depuração
                 return newHistory;
@@ -165,57 +162,37 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         fetchData();
     }, [cardsAtual]);
 
-    // console.log('history current: ', history[currentViewIndex])
+    // console.log('history current: ', history[current])
 
-    function goBack () {
-        setCurrentViewIndex(prevIndex => { if(prevIndex > 1) {return prevIndex - 1;} else{return 0}});
-        setBuffer(true);
-    };
-
-    if(buffer){
-        // console.log("prevHistory: ", history[currentViewIndex]);
-        // console.log(currentViewIndex)
-            if (currentViewIndex > 0) {
-                const previousView = history[currentViewIndex];
+    useEffect(()=>{
+        async function carrega(){
+            const previousView = history[current];
                 // console.log('previousView: ', previousView)
-                if (previousView) {
-                    console.log("previousView: ", previousView.data)
-                    setCarousel(previousView.data)
-                    setCardsAtual(previousView.data);
-                            
-                    setHistory(prevHistory => {
-                        // Remove o último item do histórico
-                        const newHistory = prevHistory.slice(0, -1);
-                        return newHistory;
-                    });
-                    
-                } else {
-                    console.error('Dados inválidos no histórico.');
-                }
+            if (previousView) {
+                // console.log("previousView: ", previousView.data)            
+                setCarousel(previousView.data)
+                setCardsAtual(previousView.data);
+                                
+                setHistory(prevHistory => {
+                    // Remove o último item do histórico
+                    const newHistory = prevHistory.slice(0, current + 1);
+                    return newHistory;
+                });
+                        
+            } else {
+                console.error('Dados inválidos no histórico.');
             }
-             
-        if(currentViewIndex === 0){
-            setCarousel('')
-            console.log(" <<<<<<<<<<<<<< prevHistory  >>>>>>>>> ", history[0].data)
-            setData(history[currentViewIndex].data)
         }
 
-        setBuffer(false);
-    }
-       
-    const { setVoltar } = useContext(VoltarContext);
-
-    useEffect(() => {
-        const returnBotao = () => {
-          return (
-            <button id='botaoVoltar' type="button" onClick={() => {goBack()}}>Voltar</button>
-          );
-        };
-    
-        setVoltar(returnBotao()); // Atualize o botão no contexto
-    
-        return () => setVoltar(null); // Limpe o botão quando o componente for desmontado
-      }, [setVoltar]);
+        if (current > 0) {
+            carrega();
+        }
+         
+        if(current === 0){
+            setCarousel('')
+            setData(history[current].data)
+        }
+    },[current])
 
     return (
         <>

@@ -19,9 +19,7 @@ const Carousel = ({ targetValue, update}) => {
   const [texts, setTexts] = useState({});
   const [structData, setStructData] = useState({});
   const [swiperInstance, setSwiperInstance] = useState(null);
-
   const [currentIndex, setCurrentIndex] = useState(0);
-
   const { setButton } = useContext(ButtonContext);
 
   useEffect(() => {
@@ -56,11 +54,17 @@ const Carousel = ({ targetValue, update}) => {
     }
   };
 
+  useEffect(()=>{
+    console.log('currentIndex: ', currentIndex)
+  },[currentIndex])
+
+  
   useEffect(() => {
     const returnBotao = () => {
       return (
         <button id='botaoCards' type="button" onClick={() => { 
-          atualizarElemento('card', document.getElementById(`cardId-${currentIndex}`).textContent, true);
+          
+          atualizarElemento();
         }}>Update JSON</button>
       );
     };
@@ -68,13 +72,12 @@ const Carousel = ({ targetValue, update}) => {
     setButton(returnBotao()); // Atualize o botão no contexto
 
     return () => setButton(null); // Limpe o botão quando o componente for desmontado
-  }, [setButton]);
+  }, [currentIndex, setButton]);
 
-
-  const atualizarElemento = async (someById, someId, boolean) => {
-    console.log(someById, someId, boolean);
-    const result = await updateElemento({ ById: someById, id: someId, valor: boolean });
-    
+  const atualizarElemento = async () => {
+    console.log('currentIndex atualizar : ', currentIndex)
+    const result = await updateElemento({ ById: 'card', id: document.getElementById(`cardId-${currentIndex}`).textContent, valor: true });
+    console.log(document.getElementById(`cardId-${currentIndex}`).textContent)
     if (result) {
         window.alert('Atualização realizada com sucesso');
         update(true);
@@ -83,7 +86,8 @@ const Carousel = ({ targetValue, update}) => {
     }
   };
 
-  const handleSlideChange = (swiper) => {   
+  const handleSlideChange = (swiper) => {
+    console.log('swiper.activeIndex: ', swiper.activeIndex)   
     setCurrentIndex(swiper.activeIndex);
   };
 
@@ -163,3 +167,55 @@ const Carousel = ({ targetValue, update}) => {
 };
 
 export default Carousel;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+export const getTextAreaValue = (card_id) => {
+    let variavel = 'textarea-'+card_id;
+    let textarea = variavel.replace(/\s+/g, '');
+    
+    textarea = document.getElementById(textarea);
+    console.log("textarea: ", textarea)
+
+    if (textarea) { 
+      return textarea.textContent; 
+    } 
+    
+    else {
+      console.warn(`Textarea with id textarea-${card_id} not found`);
+      return null;
+    }
+  };
+  
+  

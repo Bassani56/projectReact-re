@@ -13,7 +13,7 @@ export const buscaStruct = async (specificCardIds) => {
             return null;
         } else {
             const newStructData = {};
-            console.log('data busca struct: ', data)
+            // console.log('data busca struct: ', data)
             data.forEach(item => { newStructData[item.card_id] = item.struct; });
 
             const orderedStructData = specificCardIds.reduce((acc, id) => {

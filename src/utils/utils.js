@@ -1,13 +1,10 @@
 import { supabase } from '../supabaseClient';
-// In src/arquivosSite/utils.js
 import { getTextAreaValue } from './buscaTexteArea';
-// Função para buscar dados da tabela "cardsn"
 
-import { fetchData } from '../fetchData';
 import foundData from '../foundData';
 
   async function buscarElementoName() {
-    var userId = document.getElementById('nameInput').value; // Obtém o ID do usuário
+    var userId = document.getElementById('nameInput').value; // Obtém o conteudo do input
     console.log('nameInput: ', userId)
     try {
       const json_text = await foundData(userId);
@@ -27,30 +24,6 @@ import foundData from '../foundData';
     }
   }
 
-  async function buscarElementoId() {
-    var userId = document.getElementById('idInput').value; // Obtém o ID do usuário
-    console.log('idInput: ', userId)
-    try {
-      const json_text = await foundData(userId);
-      if (json_text) {
-        console.log(json_text)
-        return json_text;
-        
-      } else { 
-        console.log('Não foi possível encontrar dados para o ID:', userId);
-        return null;
-       }
-    } 
-    
-    catch (error) { 
-      console.error('Erro ao buscar dados:', error.message); 
-      return null;
-    }
-  }
-
-
-
-// Função para validar JSON
 function validarJson(ById) {
   var jsonInput = document.getElementById(ById).value;
   console.log(jsonInput);
@@ -121,12 +94,12 @@ async function inserirElemento() {
 
 async function updateElemento({ ById, id, valor }) {
   let newContent;
-  let userId = id;
+  console.log(ById, id, valor)
 
   if(!valor){ newContent = document.getElementById(ById).value; }
 
   if(valor){ newContent = getTextAreaValue(id); }
-
+  // console.log('newContent: ', newContent)
   if (!newContent) {
     window.alert('Conteúdo JSON não pode estar vazio!');
     return false;
@@ -139,14 +112,11 @@ async function updateElemento({ ById, id, valor }) {
     return false;
   }
 
-  // console.log('Tentando atualizar dados para o ID:', userId);
-  // console.log('Novo conteúdo:', newContent);
-
   try {
     const { error } = await supabase
       .from('cardsn')
       .update({ struct: newContent })
-      .eq('card_id', userId)
+      .eq('card_id', id)
 
     if (error) {
       console.error('Erro ao atualizar dados:', error);
@@ -154,8 +124,7 @@ async function updateElemento({ ById, id, valor }) {
       return false;
     }
     else{ return true; }
-
-    
+ 
   } catch (error) {
     console.error('Erro ao atualizar dados:', error.message);
     window.alert('Erro ao atualizar dados: ' + error.message);
@@ -176,4 +145,4 @@ async function processarEmail() {
   document.getElementById('mensagemInput').innerText = data.resultado;
 }
 
-export { buscarElementoName, buscarElementoId, validarJson, updateElemento, processarEmail, inserirElemento};
+export { buscarElementoName, validarJson, updateElemento, processarEmail, inserirElemento};

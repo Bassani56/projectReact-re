@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import PivotTableComponent from './pivotTable/PivotTable';
 import ErrorBoundary from './ErrorBoundary';
 // import Carousel from './carousel/Carousel';
-import { ButtonContext, VoltarContext } from './context/ThemeContext';
+import { ButtonContext, CurrentContext } from './context/ThemeContext';
 import HeaderRight from './header/header';
 import Conteudo from './pesquisaCards/Conteudo';
 
@@ -14,7 +14,9 @@ function AppTabela() {
   const [valueCarousel, setGetCarousel] = useState([]);
   const [atualizou, setGetAtualizou] = useState(false);
   const [button, setButton] = useState(null);
-  const [voltar, setVoltar] = useState(null);
+  const [current, setCurrent] = useState(-1);
+  const [history, setHistory] = useState([]);
+
   const [pesquisaName, setPesquisaName] = useState([]);
   const [pesquisaId, setPesquisaId] = useState([]);
 
@@ -38,10 +40,10 @@ function AppTabela() {
 
   return (
     <ButtonContext.Provider value={{ button, setButton }}>
-      <VoltarContext.Provider value={{ voltar, setVoltar }}>
+      <CurrentContext.Provider value={{ current, setCurrent, history, setHistory }}>
         <div className="total">
           <header className="header">
-            <HeaderRight button={button} voltar={voltar} setPesquisaName={handleSetPesquisaName} setPesquisaId={handleSetPesquisaId} />
+            <HeaderRight button={button} setPesquisaName={handleSetPesquisaName} setPesquisaId={handleSetPesquisaId} />
           </header>
 
           <div className="app">
@@ -87,7 +89,7 @@ function AppTabela() {
             <Conteudo update={setGetAtualizou} />
           </div>
         </div>
-      </VoltarContext.Provider>
+      </CurrentContext.Provider>
     </ButtonContext.Provider>
   );
 }

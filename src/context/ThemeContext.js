@@ -8,9 +8,10 @@ const ButtonContext = createContext({
 
 export {ButtonContext}
 
-const VoltarContext= createContext({
-  setVoltar: () => {},
-  voltar: null
+export const CurrentContext= createContext({
+  setCurrent: () => {},
+  current: null,
+  setHistory: () => {},
+  history: null
 });
 
-export {VoltarContext}
