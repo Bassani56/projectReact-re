@@ -10,8 +10,8 @@ export default function PesquisaName({setPesquisa}){
     }
     return(
         <>
-            <input type="text" id="nameInput"/>
-            <button id="buscarName" type="button" onClick={busca}>Buscar por nome</button>
+            <input type="text" id="nameInput" placeholder="Digite o nome"/>
+            <button id="buscarName" type="button" onClick={busca}>Buscar</button>
         </>
     )
 }

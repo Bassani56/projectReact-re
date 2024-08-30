@@ -1,10 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PivotTableComponent from './pivotTable/PivotTable';
 import ErrorBoundary from './ErrorBoundary';
 // import Carousel from './carousel/Carousel';
 import { CurrentContext } from './context/ThemeContext';
 import HeaderRight from './header/header';
-import Conteudo from './pesquisaCards/Conteudo';
 
 import { Suspense } from 'react';
 
@@ -38,7 +37,7 @@ function AppTabela() {
     setPesquisaId(value)
     setUltimoAtualizado('pesquisaId')
   };
-
+  
   return (
       <CurrentContext.Provider value={{indexSwiper, setIndexSwiper, current, setCurrent, history, setHistory }}>
         <div className="total">
@@ -73,21 +72,18 @@ function AppTabela() {
               <div className="carousel">
                 {/* Renderiza o Carousel com base no último estado atualizado */}
                 <Suspense fallback={<div>Carregando</div>}>
-                  {ultimoAtualizado === 'pesquisaName' && pesquisaName.length > 0 ? (
-                    <Carousel targetValue={pesquisaName} update={setGetAtualizou} />
+                  {ultimoAtualizado === 'pesquisaName' && pesquisaName.length > 0  ? (
+                    <Carousel targetValue={pesquisaName}/>
                   ) : ultimoAtualizado === 'carousel' && valueCarousel.length > 0 ? (
-                    <Carousel targetValue={valueCarousel} update={setGetAtualizou} />
+                    <Carousel targetValue={valueCarousel}/>
                   ) : ultimoAtualizado === 'pesquisaId' && pesquisaId.length > 0 ? (
-                    <Carousel targetValue={pesquisaId} update={setGetAtualizou}/>
+                    <Carousel targetValue={pesquisaId}/>
                   ) : null}
                 </Suspense>
               </div>
             </div>
           </div>
 
-          <div>
-            <Conteudo update={setGetAtualizou} />
-          </div>
         </div>
       </CurrentContext.Provider>
   );

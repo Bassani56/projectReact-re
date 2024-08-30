@@ -15,13 +15,14 @@ import { buscaStruct } from '../utils/buscaStruct';
 import { CurrentContext } from '../context/ThemeContext';
 
 const Carousel = ({ targetValue}) => {
+  
   const [specificCardIds, setSpecificCardIds] = useState([]);
   const [texts, setTexts] = useState({});
   const [structData, setStructData] = useState({});
   const [swiperInstance, setSwiperInstance] = useState(null);
 
   const {setIndexSwiper} = useContext(CurrentContext);
-
+  
   useEffect(() => {
     setSpecificCardIds(targetValue);
     // console.log('targetValue: ', targetValue)

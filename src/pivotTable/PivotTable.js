@@ -77,7 +77,7 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         }
 
         update()
-    } 
+    }
       
     useEffect(() => {    
         const fetchAccountSummary = async () => {
@@ -104,11 +104,9 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
     // useEffect(() =>{
     //     console.log('current: ', current)   
     // },[current])
-    
-    console.log('current FORA: ', current)
 
     useEffect(()=>{
-        console.log('history: ', history)
+        // console.log('history: ', history)
     },[history])
 
     useEffect(() =>{
@@ -132,13 +130,10 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         }
         
         if (flag) {
-            setCurrent(prevIndex => {
-                return prevIndex + 1;
-            });
+            setCurrent(prevIndex => { return prevIndex + 1;});
 
             setHistory(prevHistory => { 
                 const newHistory = [...prevHistory.slice(0, current + 1), { data: cardsAtual }];
-                
                 // console.log('New History:', newHistory); // Adiciona log para depuração
                 return newHistory;
             });
@@ -196,14 +191,10 @@ function PivotTableComponent({pesquisa,  setCarousel, setGetAtualizou, update}) 
         }
 
         document.getElementById('botaoVoltar').addEventListener('click', function() {
-            console.log(' V O L T O U >>>>')
             if(current === 0){
                 buffer()
             }
-            // Aqui você pode adicionar outras ações que deseja realizar ao clicar no botão
         });
-
-        
 
     },[current])
 

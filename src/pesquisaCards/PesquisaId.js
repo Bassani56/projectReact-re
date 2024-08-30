@@ -21,8 +21,8 @@ export default function PesquisaId({setPesquisa}){
       
     return(
         <>
-            <input type="text" id="idInput"/>
-            <button id="buscarId" type="button" onClick={busca}>Buscar por Id</button>
+            <input type="text" id="idInput" placeholder="Digite o id"/>
+            <button id="buscarId" type="button" onClick={busca}>Buscar</button>
         </>
     )
 }

@@ -19,7 +19,7 @@ export default function HeaderRight({update, setPesquisaName, setPesquisaId}){
     }
 
     async function handleUpdate(){
-        console.log(document.getElementById(`cardId-${indexSwiper}`).textContent);
+        // console.log(document.getElementById(`cardId-${indexSwiper}`).textContent);
         console.log('indexSwiper: ', indexSwiper)
 
         const result = await updateElemento({ ById: 'card', id: document.getElementById(`cardId-${indexSwiper}`).textContent, valor: true });

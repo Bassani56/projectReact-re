@@ -31,7 +31,6 @@ function validarJson(ById) {
   try {
     const data = JSON.parse(jsonInput);
     console.log('JSON válido:', data);
-    window.alert('JSON válido!');
     return true;
   } catch (error) {
     console.error('JSON inválido:', error.message);
@@ -40,31 +39,27 @@ function validarJson(ById) {
   }
 }
 async function inserirElemento() {
-    const currentDate = new Date();
-    const year = currentDate.getFullYear();
-    const month = ('0' + (currentDate.getMonth() + 1)).slice(-2);
-    const day = ('0' + currentDate.getDate()).slice(-2);
-    const hours = ('0' + currentDate.getHours()).slice(-2);
-    const minutes = ('0' + currentDate.getMinutes()).slice(-2);
-    const seconds = ('0' + currentDate.getSeconds()).slice(-2);
+    let cardId = document.getElementById('jsonInput').value.trim()
 
-    // Formatar o ID com a data atual
-    const cardId = `${year}.${month}.${day}.${hours}.${minutes}.${seconds}`;
+    if(!cardId){
+      alert('Precisa colocar um id para inserir')
+      return;
+    }
 
-    // Validação do JSON
-    validarJson('jsonInput'); // Certifique-se de implementar a função validarJson() corretamente
-    let newContent = document.getElementById('jsonInput').value.trim();
+    if(validarJson('jsonText')){window.alert('JSON válido!');} 
 
+    let newContent = document.getElementById('jsonText').value.trim();
+   
     if (!newContent) {
-        window.alert('Conteúdo JSON não pode estar vazio!');
-        return false;
+        alert('Conteúdo JSON não pode estar vazio!');
+        return;
     }
 
     try { newContent = JSON.parse(newContent); } 
     catch (e) {
         window.alert('Conteúdo inválido! Certifique-se de inserir um JSON válido.');
         console.error('Erro ao parsear JSON:', e.message);
-        return false;
+        return;
     }
 
     console.log('Tentando inserir dados para o card_id:', cardId);
@@ -79,16 +74,16 @@ async function inserirElemento() {
         if (error) {
             console.error('Erro ao inserir dados:', error);
             window.alert('Erro ao inserir dados: ' + error.message);
-            return false;
+            return;
         }
 
         console.log('Dados inseridos com sucesso:', data);
         window.alert('Dados inseridos com sucesso!');
-        return true;
+        return;
     } catch (error) {
         console.error('Erro ao inserir dados:', error.message);
         window.alert('Erro ao inserir dados: ' + error.message);
-        return false;
+        return;
     }
 }
 
